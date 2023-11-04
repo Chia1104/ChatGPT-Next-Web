@@ -7,6 +7,9 @@ const BASE_URL = process.env.BASE_URL || OPENAI_URL;
 const DISABLE_GPT4 = !!process.env.DISABLE_GPT4;
 
 export async function requestOpenai(req: NextRequest) {
+
+  console.log(BASE_URL, process.env.BASE_URL)
+
   const controller = new AbortController();
   const authValue = req.headers.get("Authorization") ?? "";
   const openaiPath = `${req.nextUrl.pathname}${req.nextUrl.search}`.replaceAll(
@@ -34,6 +37,8 @@ export async function requestOpenai(req: NextRequest) {
   const timeoutId = setTimeout(() => {
     controller.abort();
   }, 10 * 60 * 1000);
+
+  console.log("baseUrl: ", baseUrl);
 
   const fetchUrl = `${baseUrl}/${openaiPath}`;
   const fetchOptions: RequestInit = {
